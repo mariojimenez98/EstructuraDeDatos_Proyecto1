@@ -58,7 +58,7 @@ void systemAction(int action)
                 system("clear");
             #else
                 system("cls");
-            #endif            
+            #endif
             break;
         case K_CONSOLE_PAUSE:
             #if __unix__
@@ -81,7 +81,7 @@ void initializeIslands()
         islands[i].dispatchers[1] = supreme;
         islands[i].dispatchers[2] = diesel;
     }
-    
+
 }
 
 int verifyOption(int *value, int upper, int lower) {
@@ -94,7 +94,7 @@ int verifyOption(int *value, int upper, int lower) {
     return 1;
 }
 
-int selectFuelTypes() 
+int selectFuelTypes()
 {
     int opc;
     printf("------- Selecci%cne el tipo de combustible -------\n\n"
@@ -108,7 +108,7 @@ int selectFuelTypes()
     return opc;
 }
 
-int selectIsland() 
+int selectIsland()
 {
     int opc;
     printf("------- Selecci%cne una isla -------\n\n"
@@ -121,9 +121,9 @@ int selectIsland()
     return opc;
 }
 
-float selectamount()
+float selectAmount()
 {
-    float amount; 
+    float amount;
     printf("------- Selecci%cne el monto para el dia %d -------\n\n", 162, currentDayOfWeek);
     printf("Monto: \t");
     scanf("%f", &amount);
@@ -131,7 +131,7 @@ float selectamount()
     return amount;
 }
 
-void menu() 
+void menu()
 {
     int opc;
     do {
@@ -163,7 +163,7 @@ void menu()
                     break;
             }
         }
-        
+
         systemAction(K_CONSOLE_PAUSE);
         systemAction(K_CONSOLE_CLEAR);
     } while (opc != 6);
@@ -174,13 +174,13 @@ void captureConsumption() {
 
     int island, fuelType;
     float amount;
-    
+
     float *currentDayExpenseAmount, *total;
     char *dispatcherName;
 
     island = selectIsland();
     fuelType = selectFuelTypes();
-    amount = selectamount();
+    amount = selectAmount();
 
     currentDayExpenseAmount = &islands[island].dispatchers[fuelType].expenses[currentDayOfWeek - 1];
     total = &islands[island].dispatchers[fuelType].total;
@@ -190,8 +190,8 @@ void captureConsumption() {
         *currentDayExpenseAmount = amount;
         *total -= amount;
         printf(
-            "Se registraron %.2f lts para la isla %d con despachador %s en el dia %d\n", 
-            *currentDayExpenseAmount, 
+            "Se registraron %.2f lts para la isla %d con despachador %s en el dia %d\n",
+            *currentDayExpenseAmount,
             island,
             dispatcherName,
             currentDayOfWeek
@@ -209,26 +209,44 @@ void captureConsumption() {
     }
 }
 
-void consumptionReportByDay() 
+/*------------------------------------------------------------------------
+
+    El arreglo de despachadores esta en orden 0 = extra, 1 = supreme etc.
+
+    El reporte de combustible pueden reutilizar el metodo de selectFuelType
+
+--------------------------------------------------------------------------*/
+
+void consumptionReportByDay()
 {
+    //Llamar funcion selectDayOfWeek();
+    //Un for anidado de isla con despachador,
+    //y imprimir los expenses de cada despachador
+    //en la casilla dias de la semana - 1
+
     systemAction(K_CONSOLE_CLEAR);
 
-    printf("Do something");
+    printf("\nDo something");
 }
 
-void consumptionReportByFuel() 
+void consumptionReportByFuel()
 {
+    //LLamar seleccion de combustible
+    //Se imprime la isla, junto con el tipo de combustible
+    //y se imprime el valor de total que se encuentra en la estructura
+
+
     systemAction(K_CONSOLE_CLEAR);
 
-    printf("Do something");
+    printf("\nDo something");
 }
 
-void selectDayOfTheWeek() 
+void selectDayOfTheWeek()
 {
     systemAction(K_CONSOLE_CLEAR);
 
     int opc;
-    printf("------- Selecci%cne el tipo de combustible -------\n\n"
+    printf("------- Selecci%cne el d%ca de la semana -------\n\n"
            "\t1 - Lunes\n"
            "\t2 - Martes\n"
            "\t3 - Miercoles\n"
@@ -236,7 +254,7 @@ void selectDayOfTheWeek()
            "\t5 - Viernes\n"
            "\t6 - Sabado\n"
            "\t7 - Domingo\n\n"
-           "Ingrese su selecci%cn: ", 162, 162);
+           "Ingrese su selecci%cn: ", 162, 161, 162);
 
     scanf("%d", &opc);
     verifyOption(&opc, 7, 1);
@@ -245,19 +263,21 @@ void selectDayOfTheWeek()
     printf("\n");
 }
 
-void restartApp() 
+void restartApp()
 {
     systemAction(K_CONSOLE_CLEAR);
 
-    // NO FUNCIONA
     printf("Reiniciando la aplicacion ... \n\n");
     for (int i = 0; i < 2; i++)
         for (int j = 0; j < K_DISPATCHERS; j++)
         {
-            memset(islands[i].dispatchers[j].expenses, 0, K_DAYS_WEEK);
-            islands[i].dispatchers[j].total = K_MAX_LITERS;   
-        }    
-    printf("La aplicacion se reinicio con exito\n");
+            memset(islands[i].dispatchers[j].expenses, 0, sizeof(islands[i].dispatchers[j].expenses));
+            islands[i].dispatchers[j].total = K_MAX_LITERS;
+        }
+
+    currentDayOfWeek = 7;
+
+    printf("\nLa aplicacion se reinicio con exito\n");
 }
 
 void main() {
