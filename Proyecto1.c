@@ -1,7 +1,7 @@
 /********************************************
     Nombre de Alumnos: Mario Ivan Jimenez Alfaro #727740
                        Benjamin Gil Flores #727211
-                       Alejandro
+                       Alejandro Sada Prendes #725958
                        Carlos
     Fecha: 10 de Octubre 2020
     Materia: Estructura de Datos
