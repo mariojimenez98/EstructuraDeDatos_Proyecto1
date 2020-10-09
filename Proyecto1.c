@@ -258,7 +258,7 @@ void consumptionReportByFuel()
         printf("\n\t-------- Isla %i --------", i + 1);
         for (j = 0; j < K_DAYS_WEEK; j++)
         {
-            printf("\n\t\D%ca: %i\tCombustible: %s\tMonto Consumido: %0.2f lts\n",
+            printf("\n\t\tD%ca: %i\tCombustible: %s\tMonto Consumido: %0.2f lts\n",
                    161,
                    j + 1,
                    islands[i].dispatchers[fuelType].name,
